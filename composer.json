@@ -1,0 +1,21 @@
+{
+	"name": "fintech-fab/mcom",
+	"type": "service",
+	"description": "MCom Payment component",
+	"minimum-stability": "dev",
+	"license": "MIT",
+	"version": "0.1",
+	"authors": [
+		{
+			"name": "Ivan Popov"
+		}
+	],
+	"require": {
+	},
+	"autoload": {
+		"psr-0": {
+			"FintechFab\\Payments\\RuRuPayment": "src/",
+			"FintechFab\\Payments\\": "tests/"
+		}
+	}
+}
