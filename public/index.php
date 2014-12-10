@@ -24,6 +24,3 @@ if ($result->isProcessed() && !$result->isError()) {
 }
 
 echo $response;
-
-mail('v.yuldashev@fintech-fab.ru', 'RuRu callback', print_r($_GET, true) . "\n" . print_r($response, true)."\nError code: ".$result->getError()."\nError message:".$result->getErrorMessage());
-mail('i.popov@fintech-fab.ru', 'RuRu callback', print_r($_GET, true) . "\n" . print_r($response, true)."\nError code: ".$result->getError()."\nError message:".$result->getErrorMessage());
