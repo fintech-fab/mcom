@@ -118,7 +118,7 @@ class RuRuCallback extends RuRu
 		return '<ServiceResponse xmlns="http://ruru.service.provider" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">' .
 			'<ErrorCode>'.$error.'</ErrorCode>' .
 			'<ErrorDescription>'.$errorDescription.'</ErrorDescription>' .
-			'<WillCallback></WillCallback>' .
+			'<WillCallback>false</WillCallback>' .
 			'<Signature></Signature>' .
 			'</ServiceResponse>';
 	}
