@@ -69,15 +69,18 @@ abstract class RuRuRequest extends RuRu
 	protected function clearXml($responseText)
 	{
 		// удалим из XML информацию о SOAP для его успешного парсинга как обычного XML
-		if(preg_match('/xmlns:([a-z]+)=/',$responseText, $matches)){
-			foreach($matches as $key => $match){
-				if($key == 0){
+		if (preg_match_all('/xmlns:([a-z]+)=/ui', $responseText, $matches)) {
+			foreach ($matches as $key=>$submatch) {
+				if ($key == 0) {
 					continue;
 				}
-
-				$responseText = str_replace($match.':','',$responseText);
+				foreach ($submatch as $match) {
+					$responseText = preg_replace('/<'.$match.':/ui', '<', $responseText);
+					$responseText = preg_replace('/<\/'.$match.':/ui', '</', $responseText);
+				}
 			}
 		}
+
 
 		return $responseText;
 	}
