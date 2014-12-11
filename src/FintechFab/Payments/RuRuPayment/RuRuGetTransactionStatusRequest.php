@@ -67,8 +67,8 @@ class RuRuGetTransactionStatusRequest extends RuRuRequest
 		if ($responseText === null) {
 			return;
 		}
-		// удалим из XML информацию о SOAP для его успешного парсинга
-		$responseText = str_replace('s:', '', $responseText);
+		// удалим из XML информацию о SOAP для его успешного парсинга как обычного XML
+		$responseText = $this->clearXml($responseText);
 		$responseXml = @simplexml_load_string($responseText);
 
 		try {

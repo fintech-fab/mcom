@@ -64,4 +64,21 @@ abstract class RuRuRequest extends RuRu
 	{
 		return $this->resultHttpCode;
 	}
+
+
+	protected function clearXml($responseText)
+	{
+		// удалим из XML информацию о SOAP для его успешного парсинга как обычного XML
+		if(preg_match('/xmlns:([a-z]+)=/',$responseText, $matches)){
+			foreach($matches as $key => $match){
+				if($key == 0){
+					continue;
+				}
+
+				$responseText = str_replace($match.':','',$responseText);
+			}
+		}
+
+		return $responseText;
+	}
 }
