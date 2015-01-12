@@ -36,8 +36,11 @@ $secretKey = 'секретный ключ';
 // ID продавца
 $spId = 1234;
 
-// создаем объект с параметрами секретного ключа и ID пользователя
-$ruRuPayment = new RuRuPayment($spId, $secretKey);
+// задаем URL сервиса, для тестового запроса это не обязательно, в классе прописан тестовый шлюз
+$apiUrl = 'http://serviceurl';
+
+// создаем объект с параметрами секретного ключа, ID пользователя и URL сервиса
+$ruRuPayment = new RuRuPayment($spId, $secretKey, $apiUrl);
 
 // установим уникальный номер транзакции по времени
 $transactionId = time();
@@ -85,6 +88,26 @@ if ($result->isProcessed() && !$result->isError()) {
 
 // всегда следует отправить в ответ $response, т.к. методы doCallback*() возвращают текст ответа, но не отвечают сами.
 echo $response;
+
+// если ошибка при обработке, получим данные об ошибке для логирования
+if($result->isError){
+
+    // код ошибки
+	$error =  $result->getError();
+
+	// сообщение об ошибке
+    $errorMessage = $result->getErrorMessage();
+
+	// информация о curl запросе
+    $curlInfo = $result->getCurlInfo();
+
+    // массив с параметрами запроса
+    $curlParameters = $result->getCurlParameters();
+
+    // текст ответа на запрос
+    $curlResponse = $result->getCurlResponse();
+}
+
 
 ```
 

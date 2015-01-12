@@ -11,10 +11,14 @@ class RuRuPayment
 
 	protected $spId = null;
 
-	public function __construct($spId, $secretKey)
+	public function __construct($spId, $secretKey, $apiUrl = null)
 	{
 		$this->secretKey = $secretKey;
 		$this->spId = $spId;
+
+		if($apiUrl){
+			$this->apiUrl = $apiUrl;
+		}
 	}
 
 	/**

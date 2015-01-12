@@ -27,6 +27,10 @@ abstract class RuRuRequest extends RuRu
 
 	protected function request($parameters, $soapAction)
 	{
+		$this->curlParameters = $parameters;
+		$this->curlResponse = null;
+		$this->curlInfo = null;
+
 		$curl = curl_init($this->apiUrl);
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -44,18 +48,19 @@ abstract class RuRuRequest extends RuRu
 			'Expect:'
 		));
 
-		$response = curl_exec($curl);
+		$this->curlResponse = curl_exec($curl);
 
 		$this->resultHttpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
+		$this->curlInfo = curl_getinfo($curl);
+
 		curl_close($curl);
 
-		if ($response && $this->resultHttpCode == '200') {
-			return $response;
+		if ($this->curlResponse && $this->resultHttpCode == '200') {
+			return $this->curlResponse;
 		}
 
 		$this->setError(self::ERROR_HTTP);
-
 
 		return false;
 	}

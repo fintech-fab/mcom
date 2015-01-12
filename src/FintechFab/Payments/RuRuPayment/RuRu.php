@@ -104,6 +104,12 @@ abstract class RuRu
 
 	protected $error;
 
+	protected $curlInfo;
+
+	protected $curlParameters;
+
+	protected $curlResponse;
+
 	abstract public function checkSignature();
 
 	public function __construct($apiUrl, $spId, $secretKey)
@@ -121,14 +127,44 @@ abstract class RuRu
 		return $signature;
 	}
 
+	/**
+	 * @return integer|null
+	 */
 	public function getError()
 	{
 		return $this->error;
 	}
 
+	/**
+	 * @return null
+	 */
 	public function getErrorMessage()
 	{
 		return isset(self::$errorCodes[$this->error]) ? self::$errorCodes[$this->error] : null;
+	}
+
+	/**
+	 * @return array|null
+	 */
+	public function getCurlInfo()
+	{
+		return $this->curlInfo;
+	}
+
+	/**
+	 * @return array|null
+	 */
+	public function getCurlParameters()
+	{
+		return $this->curlParameters;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getCurlResponse()
+	{
+		return $this->curlResponse;
 	}
 
 	protected function setError($error)
