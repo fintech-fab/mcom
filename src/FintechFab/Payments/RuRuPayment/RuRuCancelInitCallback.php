@@ -61,4 +61,14 @@ class RuRuCancelInitCallback extends RuRuCallback
 
 		return $result;
 	}
+
+	/**
+	 * @return null
+	 */
+	public function getErrorMessage()
+	{
+		return isset(self::$errorCodes[$this->reason]) ? self::$errorCodes[$this->reason] : null;
+	}
+
+
 }
