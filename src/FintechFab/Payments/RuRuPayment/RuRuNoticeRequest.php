@@ -72,6 +72,16 @@ class RuRuNoticeRequest extends RuRuRequest
 
 		$trnId = $params['ruRuTransactionId'];
 		$type = $params['type'];
+		$dt = $params['dt'];
+		$receiver = $params['receiver'];
+		$account = $params['account'];
+		$rate = $params['rate'];
+
+		$parameters =
+			(!empty($dt) ? '<ser:dt>' . $dt . '</ser:dt>' : '') .
+			(!empty($receiver) ? '<ser:receiver>' . $receiver . '</ser:receiver>' : '') .
+			(!empty($account) ? '<ser:account>' . $account . '</ser:account>' : '') .
+			(!empty($rate) ? '<ser:rate>' . $rate . '</ser:rate>' : '');
 
 		// собираем подпись из данных
 		$signature = $trnId . $transactionId;
@@ -86,6 +96,9 @@ class RuRuNoticeRequest extends RuRuRequest
 			'<ser:spTrnId>' . $transactionId . '</ser:spTrnId>' .
 			'<ser:spId>' . $this->spId . '</ser:spId>' .
 			'<ser:type>' . $type . '</ser:type>' .
+			(!empty($parameters) ?
+				'<ser:parameters>' . $parameters .
+				'</ser:parameters>' : '') .
 			'<ser:signature>' . $signature . '</ser:signature>' .
 			'</ser:Notice>' .
 			'</soapenv:Body>' .

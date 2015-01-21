@@ -50,22 +50,33 @@ class RuRuPayment
 	}
 
 	/**
-	 * @param int $transactionId     ID транзакции в ТСП
-	 * @param int $ruRuTransactionId ID транзакции в RuRu
-	 * @param int $type              тип уведомления Notice
-	 *                               0    Операция на стороне ТСП успешно завершена
-	 *                               1    Операция на стороне ТСП не может быть завершена
-	 *                               2    Операция на стороне ТСП временно заблокирована
+	 * @param int  $transactionId     ID транзакции в ТСП
+	 * @param int  $ruRuTransactionId ID транзакции в RuRu
+	 * @param int  $type              тип уведомления Notice
+	 *                                0    Операция на стороне ТСП успешно завершена
+	 *                                1    Операция на стороне ТСП не может быть завершена
+	 *                                2    Операция на стороне ТСП временно заблокирована
+	 *
+	 * @param null $dt
+	 * @param null $receiver
+	 * @param null $account
+	 * @param null $rate
+	 *
+	 * @internal param array $parameters параметры
 	 *
 	 * @return RuRuNoticeRequest
 	 */
-	public function doNoticeRequest($transactionId, $ruRuTransactionId, $type)
+	public function doNoticeRequest($transactionId, $ruRuTransactionId, $type, $dt = null, $receiver = null, $account = null, $rate = null)
 	{
 		$ruRu = new RuRuNoticeRequest($this->apiUrl, $this->spId, $this->secretKey);
 
 		$params = array(
 			'ruRuTransactionId' => $ruRuTransactionId,
 			'type'              => $type,
+			'dt'                => $dt,
+			'receiver'          => $receiver,
+			'account'           => $account,
+			'rate'              => $rate,
 		);
 
 		$ruRu->doRequest($transactionId, $params);
