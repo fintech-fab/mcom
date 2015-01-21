@@ -16,18 +16,18 @@ class RuRuPayment
 		$this->secretKey = $secretKey;
 		$this->spId = $spId;
 
-		if($apiUrl){
+		if ($apiUrl) {
 			$this->apiUrl = $apiUrl;
 		}
 	}
 
 	/**
-	 * @param int $transactionId номер транзакции в ТСП (не в RuRu!)
-	 * @param string $phone телефон плательщика
-	 * @param string $productId идентификатор услуги или товара в RuRu (как она зарегистрирована)
-	 * @param string $info информация, отправляемая клиенту в момент подтверждения списания
-	 * @param string $account номер счета плательщика в ТСП (например номер телефона)
-	 * @param int $amount сумма покупки В КОПЕЙКАХ
+	 * @param int    $transactionId номер транзакции в ТСП (не в RuRu!)
+	 * @param string $phone         телефон плательщика
+	 * @param string $productId     идентификатор услуги или товара в RuRu (как она зарегистрирована)
+	 * @param string $info          информация, отправляемая клиенту в момент подтверждения списания
+	 * @param string $account       номер счета плательщика в ТСП (например номер телефона)
+	 * @param int    $amount        сумма покупки В КОПЕЙКАХ
 	 *
 	 * @return RuRuInitRequest
 	 */
@@ -41,6 +41,31 @@ class RuRuPayment
 			'info'      => $info,
 			'account'   => $account,
 			'amount'    => $amount,
+		);
+
+		$ruRu->doRequest($transactionId, $params);
+
+
+		return $ruRu;
+	}
+
+	/**
+	 * @param int $transactionId     ID транзакции в ТСП
+	 * @param int $ruRuTransactionId ID транзакции в RuRu
+	 * @param int $type              тип уведомления Notice
+	 *                               0    Операция на стороне ТСП успешно завершена
+	 *                               1    Операция на стороне ТСП не может быть завершена
+	 *                               2    Операция на стороне ТСП временно заблокирована
+	 *
+	 * @return RuRuNoticeRequest
+	 */
+	public function doNoticeRequest($transactionId, $ruRuTransactionId, $type)
+	{
+		$ruRu = new RuRuNoticeRequest($this->apiUrl, $this->spId, $this->secretKey);
+
+		$params = array(
+			'ruRuTransactionId' => $ruRuTransactionId,
+			'type'              => $type,
 		);
 
 		$ruRu->doRequest($transactionId, $params);
@@ -70,7 +95,7 @@ class RuRuPayment
 	{
 		$action = mb_strtolower(RuRuCallback::getParam('action'));
 
-		switch($action){
+		switch ($action) {
 			case 'init':
 				$ruRu = new RuRuInitCallback($this->apiUrl, $this->spId, $this->secretKey);
 				$ruRu->doProcessCallback();

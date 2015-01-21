@@ -143,3 +143,10 @@ switch($result->action)
 	}
 
 ```
+
+Если необходимо отправить уведомление Notice о статусе операции, все операции доступны в константах RuRuNoticeRequest::OPERATION_
+ ```
+	$result = $ruRuPayment->doNoticeRequest($transactionId, $ruRuTransactionId, RuRuNoticeRequest::OPERATION_COMPLETE);
+ ```
+ В ответ получаем объект RuRuNoticeRequest, у него есть методы isError(), getError(), getErrorMessage()
+ Следует проверить, не произошло ли каких-то ошибок, и адекватно на ошибки реагировать.
