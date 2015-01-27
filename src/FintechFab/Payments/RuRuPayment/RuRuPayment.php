@@ -62,8 +62,6 @@ class RuRuPayment
 	 * @param null $account
 	 * @param null $rate
 	 *
-	 * @internal param array $parameters параметры
-	 *
 	 * @return RuRuNoticeRequest
 	 */
 	public function doNoticeRequest($transactionId, $ruRuTransactionId, $type, $dt = null, $receiver = null, $account = null, $rate = null)
