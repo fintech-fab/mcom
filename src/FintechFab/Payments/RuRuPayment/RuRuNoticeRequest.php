@@ -78,10 +78,10 @@ class RuRuNoticeRequest extends RuRuRequest
 		$rate = $params['rate'];
 
 		$parameters =
-			(!empty($dt) ? '<ser:dt>' . $dt . '</ser:dt>' : '') .
-			(!empty($receiver) ? '<ser:receiver>' . $receiver . '</ser:receiver>' : '') .
-			(!empty($account) ? '<ser:account>' . $account . '</ser:account>' : '') .
-			(!empty($rate) ? '<ser:rate>' . $rate . '</ser:rate>' : '');
+			(!empty($dt) ? '<ser:Parameter><ser:Name>dt</ser:Name><ser:Value>' . $dt . '</ser:Value></ser:Parameter>' : '') .
+			(!empty($receiver) ? '<ser:Parameter><ser:Name>receiver</ser:Name><ser:Value>' . $receiver . '</ser:Value></ser:Parameter>' : '') .
+			(!empty($account) ? '<ser:Parameter><ser:Name>account</ser:Name><ser:Value>' . $account . '</ser:Value></ser:Parameter>' : '') .
+			(!empty($rate) ? '<ser:Parameter><ser:Name>rate</ser:Name><ser:Value>' . $rate . '</ser:Value></ser:Parameter>' : '');
 
 		// собираем подпись из данных
 		$signature = $trnId . $transactionId;
