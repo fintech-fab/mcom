@@ -29,7 +29,7 @@ class RuRuNoticeRequest extends RuRuRequest
 	 *
 	 * @var null
 	 */
-	public $description = null;
+	public $info = null;
 
 	/**
 	 * ID транзакции в RuRu
@@ -131,8 +131,8 @@ class RuRuNoticeRequest extends RuRuRequest
 
 			// преобразуем элементы XML к строкам
 			$this->errorCode = (string)$initResult->ErrorCode;
-			$this->id = (string)$initResult->TransactionId;
-			$this->description = (string)$initResult->Description;
+			$this->id = (string)$initResult->Id;
+			$this->info = (string)$initResult->Info;
 			$this->signature = (string)$initResult->Signature;
 
 		} catch (Exception $e) {
@@ -151,7 +151,7 @@ class RuRuNoticeRequest extends RuRuRequest
 	public function checkSignature()
 	{
 
-		$string = $this->id . $this->errorCode . $this->description;
+		$string = $this->id . $this->errorCode . $this->info;
 		$signature = $this->generateSignature($string);
 
 		$result = ($signature === $this->signature);
@@ -166,7 +166,7 @@ class RuRuNoticeRequest extends RuRuRequest
 	public function getResponseErrorInfo()
 	{
 		if ($this->errorCode > 0) {
-			return $this->description;
+			return $this->info;
 		}
 
 		return false;
