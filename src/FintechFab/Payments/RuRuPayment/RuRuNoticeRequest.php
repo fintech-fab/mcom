@@ -45,6 +45,20 @@ class RuRuNoticeRequest extends RuRuRequest
 	 */
 	public $signature;
 
+	/**
+	 * Таймаут резервирования (минуты)
+	 *
+	 * @var
+	 */
+	public $timeOut1;
+
+	/**
+	 * Таймаут покупки (минуты)
+	 *
+	 * @var
+	 */
+	public $timeOut2;
+
 	public function __construct($apiUrl, $spId, $secretKey)
 	{
 		$this->secretKey = $secretKey;
@@ -127,13 +141,15 @@ class RuRuNoticeRequest extends RuRuRequest
 		$responseXml = @simplexml_load_string($responseText);
 
 		try {
-			$initResult = $responseXml->Body->NoticeResponse->NoticeResult;
+			$noticeResult = $responseXml->Body->NoticeResponse->NoticeResult;
 
 			// преобразуем элементы XML к строкам
-			$this->errorCode = (string)$initResult->ErrorCode;
-			$this->id = (string)$initResult->Id;
-			$this->info = (string)$initResult->Info;
-			$this->signature = (string)$initResult->Signature;
+			$this->errorCode = (string)$noticeResult->ErrorCode;
+			$this->id = (string)$noticeResult->Id;
+			$this->info = (string)$noticeResult->Info;
+			$this->signature = (string)$noticeResult->Signature;
+			$this->timeOut1 = (string)$noticeResult->TimeOut1;
+			$this->timeOut2 = (string)$noticeResult->TimeOut2;
 
 		} catch (Exception $e) {
 			$this->setError(self::ERROR_UNKNOWN);
@@ -151,7 +167,7 @@ class RuRuNoticeRequest extends RuRuRequest
 	public function checkSignature()
 	{
 
-		$string = $this->errorCode . $this->id . $this->info;
+		$string = $this->id . $this->errorCode . $this->info . $this->timeOut1 . $this->timeOut2;
 		$signature = $this->generateSignature($string);
 
 		$result = ($signature === $this->signature);
