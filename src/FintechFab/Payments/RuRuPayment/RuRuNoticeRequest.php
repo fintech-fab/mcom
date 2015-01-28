@@ -151,7 +151,7 @@ class RuRuNoticeRequest extends RuRuRequest
 	public function checkSignature()
 	{
 
-		$string = $this->id . $this->errorCode . $this->info;
+		$string = $this->errorCode . $this->id . $this->info;
 		$signature = $this->generateSignature($string);
 
 		$result = ($signature === $this->signature);
