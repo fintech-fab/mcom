@@ -42,11 +42,18 @@ abstract class RuRuRequest extends RuRu
 		//curl_setopt($curl, CURLOPT_VERBOSE, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+
+		$headers = array(
 			'SOAPAction:"http://ruru.ru/serviceprovider/ITransactionService/' . $soapAction . '"',
 			'Content-Type: text/xml;charset=utf-8',
 			'Expect:'
-		));
+		);
+		if(function_exists('modify_mcom_headers')){
+			$headers = modify_mcom_headers($headers);
+		}
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
 
 		$this->curlResponse = curl_exec($curl);
 
